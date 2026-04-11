@@ -45,7 +45,7 @@ Open the **SkyNet Smart Favorites** menu in the WordPress admin to configure glo
 ## Screenshots
 
 1. SkyNet Smart Favorites settings page.
-2. Add to wishlist button on shop loop.
+2. Add to wishlist button on shop page.
 3. Add to wishlist button on single product page.
 4. Wishlist page with saved items and move-to-cart actions.
 
