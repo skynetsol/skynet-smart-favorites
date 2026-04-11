@@ -163,8 +163,8 @@ final class Admin {
 			$settings = array();
 		}
 
- 		$recreated = \sanitize_text_field( (string) \filter_input( \INPUT_GET, 'recreated', \FILTER_SANITIZE_STRING ) );
- 		$settings_updated = \sanitize_text_field( (string) \filter_input( \INPUT_GET, 'settings-updated', \FILTER_SANITIZE_STRING ) );
+ 		$recreated = \sanitize_text_field( (string) \filter_input( \INPUT_GET, 'recreated', \FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+ 		$settings_updated = \sanitize_text_field( (string) \filter_input( \INPUT_GET, 'settings-updated', \FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
 
  		$notice_html = '';
  		if ( 'true' === $recreated ) {
@@ -188,7 +188,7 @@ final class Admin {
 		);
 		?>
 		<div class="ssf-wrap wrap">
-			<?php echo $notice_html; ?>
+			<?php echo wp_kses_post( $notice_html ); ?>
 			<div class="ssf-header">
 				<div class="ssf-header-inner">
 					<h1><?php \esc_html_e( 'SkyNet Smart Favorites', 'skynet-smart-favorites' ); ?></h1>
@@ -291,9 +291,9 @@ final class Admin {
 								array(
 									'name'             => 'ssf_settings[wishlist_page_id]',
 									'id'               => 'wishlist_page_id',
-									'show_option_none' => \__( '&mdash; Select a Page &mdash;', 'skynet-smart-favorites' ),
+									'show_option_none' => \esc_html__( '&mdash; Select a Page &mdash;', 'skynet-smart-favorites' ),
 									'option_none_value'=> '0',
-									'selected'         => $fields['wishlist_page_id'],
+							'selected'         => absint( $fields['wishlist_page_id'] ),
 									'class'            => 'ssf-select'
 								)
 							);

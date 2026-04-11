@@ -501,7 +501,7 @@ final class Frontend {
 				
 				// Image
 				echo '<td class="product-thumbnail">';
-				echo $product->get_image( 'woocommerce_thumbnail' );
+				echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail' ) );
 				echo '</td>';
 
 				// Name

@@ -285,6 +285,7 @@ final class Ajax {
 		}
 
 		if ( $added_count > 0 ) {
+			// translators: %d is the number of products moved from the wishlist to the cart.
 			\wp_send_json_success( array( 'message' => sprintf( _n( '%d product moved to cart.', '%d products moved to cart.', $added_count, 'skynet-smart-favorites' ), $added_count ) ) );
 		} else {
 			\wp_send_json_error( array( 'message' => __( 'Could not add products to cart.', 'skynet-smart-favorites' ) ) );
