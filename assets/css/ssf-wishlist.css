@@ -1,0 +1,238 @@
+.ssf-wishlist-button {
+	margin-top: 0.5em;
+	position: relative;
+}
+
+.ssf-wishlist-button.is-loading {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.ssf-wishlist-button.is-added {
+	border-color: #2e8540;
+}
+
+/* Icon Button Styles */
+.ssf-icon-button {
+	background: none;
+	border: none;
+	padding: 8px;
+	cursor: pointer;
+	font-size: 24px;
+	line-height: 1;
+	transition: color 0.3s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.ssf-icon-button .ssf-wishlist-icon {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.ssf-icon-button.is-added .ssf-wishlist-icon {
+	fill: currentColor;
+}
+
+.ssf-icon-button:hover {
+	color: #e74c3c;
+}
+
+.ssf-icon-button.is-added {
+	color: #e74c3c;
+}
+
+.ssf-icon-button.is-added:hover {
+	color: #c0392b;
+}
+
+.ssf-tooltip {
+	position: absolute;
+	background: rgba(0, 0, 0, 0.85);
+	color: #fff;
+	padding: 6px 10px;
+	border-radius: 4px;
+	font-size: 13px;
+	white-space: nowrap;
+	top: -34px;
+	right: 50%;
+	transform: translateX(50%);
+	z-index: 20;
+	opacity: 0;
+	animation: ssf-tooltip-in 0.2s ease forwards;
+}
+
+@keyframes ssf-tooltip-in {
+	from { opacity: 0; transform: translateX(50%) translateY(5px); }
+	to { opacity: 1; transform: translateX(50%) translateY(0); }
+}
+
+.ssf-toast-container {
+	position: fixed;
+	bottom: 16px;
+	right: 16px;
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ssf-toast {
+	background: rgba(0, 0, 0, 0.85);
+	color: #fff;
+	padding: 12px 16px;
+	border-radius: 8px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	max-width: 320px;
+	font-size: 14px;
+	opacity: 1;
+	transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.ssf-toast-hidden {
+	opacity: 0;
+	transform: translateY(10px);
+}
+
+/* Over Image Positioning */
+.ssf-over-image {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 50%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ssf-over-image .ssf-wishlist-icon {
+	font-size: 20px;
+}
+
+/* Ensure single product and product loop images can support over-image positioning */
+.woocommerce div.product,
+.woocommerce ul.products li.product {
+	position: relative;
+}
+
+/* Shortcode Styles */
+.ssf-shortcode {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+/* Frontend Shortcode Styles */
+.ssf-wishlist-container {
+	margin-top: 2rem;
+	font-family: inherit;
+}
+
+.ssf-wishlist-controls {
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ssf-wishlist-controls .button {
+	margin-left: auto;
+}
+
+.ssf-wishlist-box h3 {
+	border-bottom: 2px solid #eaeaea;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.ssf-wishlist-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+}
+
+.ssf-wishlist-table th, 
+.ssf-wishlist-table td {
+	padding: 15px;
+	text-align: left;
+	vertical-align: middle;
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.ssf-wishlist-table th {
+	background-color: #fafafa;
+	font-weight: 600;
+	color: #333;
+}
+
+.ssf-wishlist-table td.product-thumbnail img {
+	max-width: 80px;
+	height: auto;
+	border-radius: 4px;
+}
+
+.ssf-wishlist-table td.product-name a {
+	font-weight: 500;
+	color: #2b2b2b;
+	text-decoration: none;
+}
+
+.ssf-wishlist-table td.product-name a:hover {
+	color: #f21368;
+}
+
+.ssf-remove-btn {
+	color: #d9534f;
+	font-size: 24px;
+	font-weight: bold;
+	text-decoration: none;
+	display: inline-block;
+	transition: color 0.2s;
+}
+
+.ssf-remove-btn:hover {
+	color: #c9302c;
+}
+
+.ssf-wishlist-table th.product-select,
+.ssf-wishlist-table td.product-select {
+	text-align: center;
+	width: 40px;
+}
+
+.ssf-wishlist-table input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.ssf-wishlist-actions {
+	margin-top: 20px;
+	padding-top: 15px;
+	border-top: 1px solid #eaeaea;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ssf-bulk-move-btn {
+	background-color: #f21368 !important;
+	color: #fff !important;
+	border: none !important;
+	border-radius: 4px;
+	padding: 10px 20px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.ssf-bulk-move-btn:hover {
+	background-color: #d10a56 !important;
+}
+
+.ssf-move-to-cart-btn {
+	white-space: nowrap;
+}
