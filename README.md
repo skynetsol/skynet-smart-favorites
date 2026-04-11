@@ -45,10 +45,21 @@ Use the shortcode: `[ssf_wishlist]`. You can also use `[ssf_wishlist_icon produc
 
 ## Screenshots
 
-1. Plugin settings page for SkyNet Smart Favorites.
-2. Add to wishlist button on the shop page.
-3. Add to wishlist button on the single product page.
-4. Wishlist page with saved items and move-to-cart actions.
+### 1. Settings Page
+
+![Settings](assets/images/screenshot.png)
+
+### 2. Shop Loop Button
+
+![Shop Loop](assets/images/screenshot-1.png)
+
+### 3. Product Page Button
+
+![Product Page](assets/images/screenshot-3.png)
+
+### 4. Wishlist Page
+
+![Wishlist](assets/images/screenshot-2.png)
 
 ## Changelog
 

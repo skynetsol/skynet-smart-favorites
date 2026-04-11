@@ -60,10 +60,21 @@ Open the **SkyNet Smart Favorites** admin menu to configure global wishlist beha
 
 == Screenshots ==
 
-1. Plugin settings page with wishlist options.
-2. Add to wishlist button on shop loop.
-3. Add to wishlist button on single product page.
-4. Wishlist page with item list and move-to-cart actions.
+=== 1. Settings Page ===
+
+![Settings](assets/images/screenshot.png)
+
+=== 2. Shop Loop Button ===
+
+![Shop Loop](assets/images/screenshot-1.png)
+
+=== 3. Product Page Button ===
+
+![Product Page](assets/images/screenshot-3.png)
+
+=== 4. Wishlist Page ===
+
+![Wishlist](assets/images/screenshot-2.png)
 
 == Upgrade Notice ==
 
