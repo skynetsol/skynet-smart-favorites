@@ -1,5 +1,6 @@
 === SkyNet Smart Favorites ===
 Contributors: SkyNet
+Donate link:https://skynetsol.com/
 Tags: wishlist, woocommerce, multiple wishlist, ajax, shortcodes
 Requires at least: 6.0
 Tested up to: 6.9
@@ -7,12 +8,22 @@ Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Short Description: Flexible WooCommerce wishlist support with multiple lists and guest session saving.
+
+Flexible WooCommerce wishlist support with multiple lists and guest session preservation.
+
+== Short Description ==
+Flexible WooCommerce wishlist support with multiple wishlists, guest session preservation, and fast move-to-cart actions.
 
 == Description ==
 
-SkyNet Smart Favorites for WooCommerce adds flexible wishlist support to WooCommerce stores.
-Customers can create and use multiple wishlists, manage wishlist items from a dedicated page, and move items directly to the cart. Guest users can save wishlist data during the session, and the plugin includes a login-sync foundation for preserving wishlist contents after sign-in.
+SkyNet Smart Favorites adds a polished wishlist experience to WooCommerce stores. Customers can save favorite products, organize items across multiple wishlists, and move products from the wishlist directly to the cart.
+
+The plugin is optimized for WooCommerce workflows and includes admin settings for display, notifications, and wishlist page configuration.
+
+- Save favorite products from shop and product pages.
+- Manage multiple wishlist collections.
+- Preserve guest wishlist choices during browsing sessions.
+- Move wishlist items to cart in one click.
 
 == Installation ==
 
