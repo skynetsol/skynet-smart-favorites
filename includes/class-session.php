@@ -2,12 +2,12 @@
 /**
  * Session layer for guest wishlists.
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,14 +27,14 @@ final class Session {
 	 *
 	 * @var string
 	 */
-	private $owner_key = 'ssf_owner';
+	private $owner_key = 'skynsmfa_owner';
 
 	/**
 	 * Session key for wishlist data.
 	 *
 	 * @var string
 	 */
-	private $data_key = 'ssf_wishlist';
+	private $data_key = 'skynsmfa_wishlist_data';
 
 	/**
 	 * Cached owner.
@@ -60,7 +60,7 @@ final class Session {
 	 * Constructor.
 	 */
 	private function __construct() {
-		\add_action( 'woocommerce_init', array( $this, 'maybe_init_session' ) );
+		add_action( 'woocommerce_init', array( $this, 'maybe_init_session' ) );
 	}
 
 	/**
@@ -86,8 +86,8 @@ final class Session {
 			return $this->cached_owner;
 		}
 
-		if ( \is_user_logged_in() ) {
-			$this->cached_owner = 'user:' . (string) \get_current_user_id();
+		if ( is_user_logged_in() ) {
+			$this->cached_owner = 'user:' . (string) get_current_user_id();
 			return $this->cached_owner;
 		}
 
@@ -99,7 +99,7 @@ final class Session {
 		$owner = (string) WC()->session->get( $this->owner_key, '' );
 
 		if ( '' === $owner ) {
-			$owner = 'guest:' . \wp_generate_password( 20, false, false );
+			$owner = 'guest:' . wp_generate_password( 20, false, false );
 			WC()->session->set( $this->owner_key, $owner );
 		}
 

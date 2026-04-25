@@ -1,0 +1,59 @@
+---
+alwaysApply: true
+---
+
+You are building a WooCommerce extension plugin.
+
+Follow these rules strictly:
+
+PLUGIN RULES
+- Plugin prefix must be SWW_
+- Namespace must be SWW\Wishlist
+- No global functions allowed
+- No anonymous functions in hooks
+- Use class-based architecture
+- Use singleton pattern for main plugin class
+
+WORDPRESS CODING
+- Follow WordPress coding standards
+- Escape all outputs
+- Sanitize all inputs
+- Use nonces for AJAX
+- No direct DB queries without $wpdb prepare
+
+WOOCOMMERCE RULES
+- Use WooCommerce session for guest wishlist
+- Hook into WooCommerce actions only
+- Do not override WooCommerce templates
+- Load plugin only if WooCommerce active
+
+DATABASE RULES
+- Tables must use prefix: {$wpdb->prefix}sww_
+- Use dbDelta for table creation
+- No postmeta storage
+
+AJAX RULES
+- Prefix AJAX actions with sww_
+- Must support logged and guest users
+- Must return wp_send_json_success/error
+
+ADMIN RULES
+- Use WooCommerce settings API
+- Minimal settings only
+- No custom admin page
+
+ASSET RULES
+- Prefix handles with sww-
+- Load scripts only when needed
+- Localize script for ajax_url and nonce
+
+SECURITY
+- check_ajax_referer required
+- sanitize_text_field
+- absint
+- wp_unslash
+
+PERFORMANCE
+- No heavy queries on page load
+- Use AJAX for wishlist actions
+- Cache session owner

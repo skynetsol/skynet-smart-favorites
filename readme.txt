@@ -1,5 +1,5 @@
 === SkyNet Smart Favorites ===
-Contributors: SkyNet
+Contributors: satinath1, SkyNet
 Donate link:https://skynetsol.com/
 Tags: wishlist, woocommerce, multiple wishlist, ajax, shortcodes
 Requires at least: 6.0
@@ -52,7 +52,7 @@ Yes. The plugin includes a login-sync foundation that preserves session wishlist
 
 = How do I display the wishlist page? =
 
-The plugin creates a wishlist page automatically using the `[ssf_wishlist]` shortcode. You can also use `[ssf_wishlist_icon product_id="123"]` to render an add/remove wishlist icon for a specific product.
+The plugin creates a wishlist page automatically using the `[skynsmfa_wishlist]` shortcode. You can also use `[skynsmfa_wishlist_icon product_id="123"]` to render an add/remove wishlist icon for a specific product.
 
 = Where are the settings located? =
 

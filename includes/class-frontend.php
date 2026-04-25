@@ -2,12 +2,12 @@
 /**
  * Frontend hooks and rendering.
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -39,15 +39,15 @@ final class Frontend {
 	 * Constructor.
 	 */
 	private function __construct() {
-		\add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		\add_action( 'woocommerce_before_add_to_cart_button', array( $this, 'render_single_button_before' ), 10 );
-		\add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'render_single_button_after' ) );
-		\add_action( 'woocommerce_before_single_product_summary', array( $this, 'render_single_button_over_image' ), 30 );
-		\add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'render_loop_button_before' ), 20 );
-		\add_action( 'woocommerce_after_shop_loop_item', array( $this, 'render_loop_button' ), 20 );
-		\add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'render_over_image_button' ), 10 );
-		\add_shortcode( 'ssf_wishlist', array( $this, 'render_shortcode' ) );
-		\add_shortcode( 'ssf_wishlist_icon', array( $this, 'render_icon_shortcode' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'woocommerce_before_add_to_cart_button', array( $this, 'render_single_button_before' ), 10 );
+		add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'render_single_button_after' ) );
+		add_action( 'woocommerce_before_single_product_summary', array( $this, 'render_single_button_over_image' ), 30 );
+		add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'render_loop_button_before' ), 20 );
+		add_action( 'woocommerce_after_shop_loop_item', array( $this, 'render_loop_button' ), 20 );
+		add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'render_over_image_button' ), 10 );
+		add_shortcode( 'skynsmfa_wishlist', array( $this, 'render_shortcode' ) );
+		add_shortcode( 'skynsmfa_wishlist_icon', array( $this, 'render_icon_shortcode' ) );
 	}
 
 	/**
@@ -73,45 +73,45 @@ final class Frontend {
 	public function enqueue_assets(): void {
 
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
 
-		\wp_register_style(
-			'ssf-wishlist',
-			SSF_URL . 'assets/css/ssf-wishlist.css',
+		wp_register_style(
+			'skynsmfa-wishlist',
+			SKYNSMFA_URL . 'assets/css/skynsmfa-wishlist.css',
 			array(),
-			SSF_VERSION
+			SKYNSMFA_VERSION
 		);
 
-		\wp_register_script(
-			'ssf-wishlist',
-			SSF_URL . 'assets/js/ssf-wishlist.js',
+		wp_register_script(
+			'skynsmfa-wishlist',
+			SKYNSMFA_URL . 'assets/js/skynsmfa-wishlist.js',
 			array(),
-			SSF_VERSION,
+			SKYNSMFA_VERSION,
 			true
 		);
 
-		\wp_localize_script(
-			'ssf-wishlist',
-			'ssfWishlist',
+		wp_localize_script(
+			'skynsmfa-wishlist',
+			'skynsmfaWishlist',
 			array(
-				'ajax_url' => \admin_url( 'admin-ajax.php' ),
-				'nonce'    => \wp_create_nonce( 'ssf_wishlist_nonce' ),
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'skynsmfa_wishlist_nonce' ),
 				'i18n'     => array(
 					'added'   => __( 'Added to wishlist.', 'skynet-smart-favorites' ),
 					'removed' => __( 'Removed from wishlist.', 'skynet-smart-favorites' ),
 					'error'   => __( 'Something went wrong.', 'skynet-smart-favorites' ),
 				),
 				'settings' => array(
-					'notification_type' => $settings['ssf_notification_type'] ?? 'toast',
-					'display_mode' => $settings['ssf_display_mode'] ?? 'button',
+					'notification_type' => $settings['skynsmfa_notification_type'] ?? 'toast',
+					'display_mode' => $settings['skynsmfa_display_mode'] ?? 'button',
 				),
 			)
 		);
 
-		\wp_enqueue_style( 'ssf-wishlist' );
-		\wp_enqueue_script( 'ssf-wishlist' );
+		wp_enqueue_style( 'skynsmfa-wishlist' );
+		wp_enqueue_script( 'skynsmfa-wishlist' );
 	}
 
 	/**
@@ -121,13 +121,13 @@ final class Frontend {
 	 */
 	public function render_loop_button(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_loop_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_loop_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'after_add_to_cart' !== ( $settings['ssf_loop_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'after_add_to_cart' !== ( $settings['skynsmfa_loop_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -146,13 +146,13 @@ final class Frontend {
 	 */
 	public function render_loop_button_before(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_loop_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_loop_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'before_add_to_cart' !== ( $settings['ssf_loop_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'before_add_to_cart' !== ( $settings['skynsmfa_loop_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -171,13 +171,13 @@ final class Frontend {
 	 */
 	public function render_over_image_button(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_loop_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_loop_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'over_image' !== ( $settings['ssf_loop_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'over_image' !== ( $settings['skynsmfa_loop_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -196,13 +196,13 @@ final class Frontend {
 	 */
 	public function render_single_button_before(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_single_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_single_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'before_add_to_cart' !== ( $settings['ssf_single_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'before_add_to_cart' !== ( $settings['skynsmfa_single_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -216,13 +216,13 @@ final class Frontend {
 
 	public function render_single_button_after(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_single_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_single_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'after_add_to_cart' !== ( $settings['ssf_single_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'after_add_to_cart' !== ( $settings['skynsmfa_single_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -241,13 +241,13 @@ final class Frontend {
 	 */
 	public function render_single_button_over_image(): void {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'yes' !== ( $settings['ssf_single_icon'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_single_icon'] ?? 'yes' ) ) {
 			return;
 		}
-		if ( 'over_image' !== ( $settings['ssf_single_position'] ?? 'after_add_to_cart' ) ) {
+		if ( 'over_image' !== ( $settings['skynsmfa_single_position'] ?? 'after_add_to_cart' ) ) {
 			return;
 		}
 
@@ -282,7 +282,7 @@ final class Frontend {
 		}
 
 		$settings = $this->get_settings();
-		$display_mode = $settings['ssf_display_mode'] ?? 'button';
+		$display_mode = $settings['skynsmfa_display_mode'] ?? 'button';
 
 		if ( 'icon' === $display_mode ) {
 			$this->render_icon_button( $product_id, $context, $is_in_wishlist );
@@ -301,13 +301,13 @@ final class Frontend {
 	 */
 	private function render_icon_button( int $product_id, string $context, bool $is_in_wishlist ): void {
 		$extra_class = $is_in_wishlist ? ' is-added' : '';
-		$context_class = 'over_image' === $context ? ' ssf-over-image' : '';
+		$context_class = 'over_image' === $context ? ' skynsmfa-over-image' : '';
 
 		ob_start();
-		include SSF_PATH . 'templates/icon.php';
+		include SKYNSMFA_PATH . 'templates/icon.php';
 		$icon_html = ob_get_clean();
 
-		$html = '<button type="button" class="ssf-wishlist-button ssf-icon-button' . esc_attr( $extra_class . $context_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="' . esc_attr( $context ) . '" aria-label="' . esc_attr( $is_in_wishlist ? __( 'Remove from wishlist', 'skynet-smart-favorites' ) : __( 'Add to wishlist', 'skynet-smart-favorites' ) ) . '">';
+		$html = '<button type="button" class="skynsmfa-wishlist-button skynsmfa-icon-button' . esc_attr( $extra_class . $context_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="' . esc_attr( $context ) . '" aria-label="' . esc_attr( $is_in_wishlist ? __( 'Remove from wishlist', 'skynet-smart-favorites' ) : __( 'Add to wishlist', 'skynet-smart-favorites' ) ) . '">';
 		$html .= $icon_html;
 		$html .= '</button>';
 
@@ -318,9 +318,9 @@ final class Frontend {
 		 * @param int    $product_id Product ID.
 		 * @param string $context Context.
 		 */
-		$html = (string) \apply_filters( 'ssf_icon_html', $html, $product_id, $context );
+		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, $context );
 
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( $html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -334,9 +334,9 @@ final class Frontend {
 	private function render_text_button( int $product_id, string $context, bool $is_in_wishlist ): void {
 		$label       = $is_in_wishlist ? __( 'Already in wishlist', 'skynet-smart-favorites' ) : __( 'Add to wishlist', 'skynet-smart-favorites' );
 		$extra_class = $is_in_wishlist ? ' is-added' : '';
-		$context_class = 'over_image' === $context ? ' ssf-over-image' : '';
+		$context_class = 'over_image' === $context ? ' skynsmfa-over-image' : '';
 
-		$html  = '<button type="button" class="button ssf-wishlist-button' . esc_attr( $extra_class . $context_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="' . esc_attr( $context ) . '">';
+		$html  = '<button type="button" class="button skynsmfa-wishlist-button' . esc_attr( $extra_class . $context_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="' . esc_attr( $context ) . '">';
 		$html .= esc_html( $label );
 		$html .= '</button>';
 
@@ -347,23 +347,23 @@ final class Frontend {
 		 * @param int    $product_id Product ID.
 		 * @param string $context Context.
 		 */
-		$html = (string) \apply_filters( 'ssf_icon_html', $html, $product_id, $context );
+		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, $context );
 
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( $html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
-	 * Render the [ssf_wishlist_icon] shortcode.
+	 * Render the [skynsmfa_wishlist_icon] shortcode.
 	 *
 	 * @param array $atts Shortcode attributes.
 	 * @return string
 	 */
 	public function render_icon_shortcode( array $atts = array() ): string {
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return '';
 		}
-		if ( 'yes' !== ( $settings['ssf_custom_shortcode'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_custom_shortcode'] ?? 'yes' ) ) {
 			return '';
 		}
 
@@ -372,7 +372,7 @@ final class Frontend {
 				'product_id' => 0,
 			),
 			$atts,
-			'ssf_wishlist_icon'
+			'skynsmfa_wishlist_icon'
 		);
 
 		$product_id = absint( $atts['product_id'] );
@@ -397,10 +397,10 @@ final class Frontend {
 		$extra_class = $is_in_wishlist ? ' is-added' : '';
 
 		ob_start();
-		include SSF_PATH . 'templates/icon.php';
+		include SKYNSMFA_PATH . 'templates/icon.php';
 		$icon_html = ob_get_clean();
 
-		$html = '<button type="button" class="ssf-wishlist-button ssf-icon-button ssf-shortcode' . esc_attr( $extra_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="shortcode" aria-label="' . esc_attr( $is_in_wishlist ? __( 'Remove from wishlist', 'skynet-smart-favorites' ) : __( 'Add to wishlist', 'skynet-smart-favorites' ) ) . '">';
+		$html = '<button type="button" class="skynsmfa-wishlist-button skynsmfa-icon-button skynsmfa-shortcode' . esc_attr( $extra_class ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="default" data-context="shortcode" aria-label="' . esc_attr( $is_in_wishlist ? __( 'Remove from wishlist', 'skynet-smart-favorites' ) : __( 'Add to wishlist', 'skynet-smart-favorites' ) ) . '">';
 		$html .= $icon_html;
 		$html .= '</button>';
 
@@ -411,9 +411,9 @@ final class Frontend {
 		 * @param int    $product_id Product ID.
 		 * @param string $context Context.
 		 */
-		$html = (string) \apply_filters( 'ssf_icon_html', $html, $product_id, 'shortcode' );
+		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, 'shortcode' );
 
-		return $html;
+		return wp_kses_post( $html );
 	}
 
 	/**
@@ -425,7 +425,7 @@ final class Frontend {
 		$this->ensure_session();
 
 		$settings = $this->get_settings();
-		if ( 'yes' !== ( $settings['ssf_enable'] ?? 'yes' ) ) {
+		if ( 'yes' !== ( $settings['skynsmfa_enable'] ?? 'yes' ) ) {
 			return '';
 		}
 
@@ -434,7 +434,7 @@ final class Frontend {
 		}
 
 		$data = Session::instance()->get_data();
-		$multiple_enabled = 'yes' === ( $settings['ssf_multiple_enable'] ?? 'yes' );
+		$multiple_enabled = 'yes' === ( $settings['skynsmfa_multiple_enable'] ?? 'yes' );
 
 		if ( ! $multiple_enabled ) {
 			$data = array(
@@ -444,24 +444,24 @@ final class Frontend {
 
 		ob_start();
 
-		echo '<div class="ssf-wishlist-container">';
+		echo '<div class="skynsmfa-wishlist-container">';
 
 		if ( $multiple_enabled ) {
-			echo '<div class="ssf-wishlist-controls">';
-			echo '<button type="button" class="button button-secondary ssf-create-list-btn">' . esc_html__( 'Create New Wishlist', 'skynet-smart-favorites' ) . '</button>';
+			echo '<div class="skynsmfa-wishlist-controls">';
+			echo '<button type="button" class="button button-secondary skynsmfa-create-list-btn">' . esc_html__( 'Create New Wishlist', 'skynet-smart-favorites' ) . '</button>';
 			echo '</div>';
 		}
 
 		if ( empty( $data ) ) {
-			echo '<p class="ssf-empty">' . esc_html__( 'Your wishlist is currently empty.', 'skynet-smart-favorites' ) . '</p>';
+			echo '<p class="skynsmfa-empty">' . esc_html__( 'Your wishlist is currently empty.', 'skynet-smart-favorites' ) . '</p>';
 			echo '</div>';
-			return ob_get_clean();
+			return wp_kses_post( ob_get_clean() );
 		}
 
 		foreach ( $data as $list_key => $items ) {
 			$list_name = 'default' === $list_key ? __( 'My Wishlist', 'skynet-smart-favorites' ) : ucfirst( str_replace( 'custom:', '', $list_key ) );
 			
-			echo '<div class="ssf-wishlist-box">';
+			echo '<div class="skynsmfa-wishlist-box">';
 			echo '<h3>' . esc_html( $list_name ) . '</h3>';
 			
 			if ( empty( $items ) ) {
@@ -470,9 +470,9 @@ final class Frontend {
 				continue;
 			}
 			
-			echo '<table class="ssf-wishlist-table custom-shop_table">';
+			echo '<table class="skynsmfa-wishlist-table custom-shop_table">';
 			echo '<thead><tr>';
-			echo '<th class="product-select"><input type="checkbox" class="ssf-select-all" title="' . esc_attr__( 'Select All', 'skynet-smart-favorites' ) . '"></th>';
+			echo '<th class="product-select"><input type="checkbox" class="skynsmfa-select-all" title="' . esc_attr__( 'Select All', 'skynet-smart-favorites' ) . '"></th>';
 			echo '<th class="product-remove"></th>';
 			echo '<th class="product-thumbnail"></th>';
 			echo '<th class="product-name">' . esc_html__( 'Product', 'skynet-smart-favorites' ) . '</th>';
@@ -487,16 +487,16 @@ final class Frontend {
 					continue;
 				}
 
-				echo '<tr class="ssf-wishlist-item" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">';
+				echo '<tr class="skynsmfa-wishlist-item" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">';
 				
 				// Select
 				echo '<td class="product-select">';
-				echo '<input type="checkbox" class="ssf-item-select" value="' . esc_attr( (string) $product_id ) . '">';
+				echo '<input type="checkbox" class="skynsmfa-item-select" value="' . esc_attr( (string) $product_id ) . '">';
 				echo '</td>';
 
 				// Remove
 				echo '<td class="product-remove">';
-				echo '<a href="#" class="ssf-remove-btn" title="' . esc_attr__( 'Remove this item', 'skynet-smart-favorites' ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">&times;</a>';
+				echo '<a href="#" class="skynsmfa-remove-btn" title="' . esc_attr__( 'Remove this item', 'skynet-smart-favorites' ) . '" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">&times;</a>';
 				echo '</td>';
 				
 				// Image
@@ -517,7 +517,7 @@ final class Frontend {
 				// Add to cart
 				echo '<td class="product-action">';
 				if ( $product->is_in_stock() ) {
-					echo '<button type="button" class="button ssf-move-to-cart-btn" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">' . esc_html__( 'Move to Cart', 'skynet-smart-favorites' ) . '</button>';
+					echo '<button type="button" class="button skynsmfa-move-to-cart-btn" data-product-id="' . esc_attr( (string) $product_id ) . '" data-wishlist-key="' . esc_attr( $list_key ) . '">' . esc_html__( 'Move to Cart', 'skynet-smart-favorites' ) . '</button>';
 				} else {
 					echo '<span class="out-of-stock">' . esc_html__( 'Out of stock', 'skynet-smart-favorites' ) . '</span>';
 				}
@@ -528,15 +528,15 @@ final class Frontend {
 
 			echo '</tbody></table>';
 
-			echo '<div class="ssf-wishlist-actions">';
-			echo '<button type="button" class="button button-primary ssf-bulk-move-btn" data-wishlist-key="' . esc_attr( $list_key ) . '">' . esc_html__( 'Move Selected to Cart', 'skynet-smart-favorites' ) . '</button>';
+			echo '<div class="skynsmfa-wishlist-actions">';
+			echo '<button type="button" class="button button-primary skynsmfa-bulk-move-btn" data-wishlist-key="' . esc_attr( $list_key ) . '">' . esc_html__( 'Move Selected to Cart', 'skynet-smart-favorites' ) . '</button>';
 			echo '</div>';
 			echo '</div>'; // box
 		}
 
 		echo '</div>'; // container
 
-		return ob_get_clean();
+		return wp_kses_post( ob_get_clean() );
 	}
 
 	/**
@@ -545,7 +545,7 @@ final class Frontend {
 	 * @return array
 	 */
 	private function get_settings(): array {
-		$settings = \get_option( 'ssf_settings', array() );
+		$settings = get_option( 'skynsmfa_settings', array() );
 		return is_array( $settings ) ? $settings : array();
 	}
 }

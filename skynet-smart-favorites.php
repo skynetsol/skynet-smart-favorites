@@ -12,7 +12,7 @@
  * Requires at least: 6.0
  * Requires PHP: 7.4
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
@@ -21,12 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SSF_VERSION', time() );
-define( 'SSF_PATH', plugin_dir_path( __FILE__ ) );
-define( 'SSF_URL', plugin_dir_url( __FILE__ ) );
-define( 'SSF_FILE', __FILE__ );
+define( 'SKYNSMFA_VERSION', time() );
+define( 'SKYNSMFA_PATH', plugin_dir_path( __FILE__ ) );
+define( 'SKYNSMFA_URL', plugin_dir_url( __FILE__ ) );
+define( 'SKYNSMFA_FILE', __FILE__ );
 
-require_once SSF_PATH . 'includes/class-plugin.php';
+require_once SKYNSMFA_PATH . 'includes/class-plugin.php';
 
-register_activation_hook( __FILE__, array( 'SSF\\Wishlist\\Plugin', 'activate' ) );
-add_action( 'plugins_loaded', array( 'SSF\\Wishlist\\Plugin', 'boot' ) );
+register_activation_hook( __FILE__, array( 'SKYNSMFA\\Wishlist\\Plugin', 'activate' ) );
+add_action( 'plugins_loaded', array( 'SKYNSMFA\\Wishlist\\Plugin', 'boot' ) );

@@ -41,7 +41,7 @@ Yes. Wishlist session data is preserved and can be synced after users log in.
 
 ### How do I display the wishlist page?
 
-Use the shortcode: `[ssf_wishlist]`. You can also use `[ssf_wishlist_icon product_id="123"]` to display an add/remove icon for a specific product.
+Use the shortcode: `[skynsmfa_wishlist]`. You can also use `[skynsmfa_wishlist_icon product_id="123"]` to display an add/remove icon for a specific product.
 
 ## Screenshots
 

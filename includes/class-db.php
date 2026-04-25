@@ -2,12 +2,12 @@
 /**
  * Database installer and helpers.
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -55,8 +55,8 @@ final class DB {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$wishlists_table = $wpdb->prefix . 'ssf_wishlists';
-		$items_table     = $wpdb->prefix . 'ssf_wishlist_items';
+		$wishlists_table = $wpdb->prefix . 'skynsmfa_wishlists';
+		$items_table     = $wpdb->prefix . 'skynsmfa_wishlist_items';
 
 		$sql_wishlists = "CREATE TABLE {$wishlists_table} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -83,8 +83,8 @@ final class DB {
 			KEY product_id (product_id)
 		) {$charset_collate};";
 
-		\dbDelta( $sql_wishlists );
-		\dbDelta( $sql_items );
+		dbDelta( $sql_wishlists );
+		dbDelta( $sql_items );
 	}
 }
 

@@ -2,12 +2,12 @@
 /**
  * Main plugin bootstrap.
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -80,11 +80,11 @@ final class Plugin {
 		$this->wc_active = class_exists( 'WooCommerce' );
 
 		if ( ! $this->wc_active ) {
-			\add_action( 'admin_notices', array( $this, 'render_wc_missing_notice' ) );
+			add_action( 'admin_notices', array( $this, 'render_wc_missing_notice' ) );
 			return;
 		}
 
-		\spl_autoload_register( array( __CLASS__, 'autoload' ) );
+		spl_autoload_register( array( __CLASS__, 'autoload' ) );
 		Admin::instance();
 		Session::instance();
 		Ajax::instance();
@@ -101,16 +101,16 @@ final class Plugin {
 	public static function autoload( string $class_name ): void {
 		$prefix = __NAMESPACE__ . '\\';
 
-		if ( 0 !== \strpos( $class_name, $prefix ) ) {
+		if ( 0 !== strpos( $class_name, $prefix ) ) {
 			return;
 		}
 
-		$relative = \substr( $class_name, \strlen( $prefix ) );
-		$relative = \strtolower( \str_replace( '\\', '-', $relative ) );
+		$relative = substr( $class_name, strlen( $prefix ) );
+		$relative = strtolower( str_replace( '\\', '-', $relative ) );
 
-		$path = SSF_PATH . 'includes/class-' . $relative . '.php';
+		$path = SKYNSMFA_PATH . 'includes/class-' . $relative . '.php';
 
-		if ( \file_exists( $path ) ) {
+		if ( file_exists( $path ) ) {
 			require_once $path;
 		}
 	}
@@ -125,23 +125,23 @@ final class Plugin {
 			return;
 		}
 
-		\spl_autoload_register( array( __CLASS__, 'autoload' ) );
+		spl_autoload_register( array( __CLASS__, 'autoload' ) );
 
 		DB::instance()->install();
 
-		if ( false === \get_option( 'ssf_settings', false ) ) {
-			\add_option(
-				'ssf_settings',
+		if ( false === get_option( 'skynsmfa_settings', false ) ) {
+			add_option(
+				'skynsmfa_settings',
 				array(
-					'ssf_enable'          => 'yes',
-					'ssf_multiple_enable' => 'yes',
-					'ssf_loop_icon'       => 'yes',
-					'ssf_single_icon'     => 'yes',
-					'ssf_loop_position'   => 'after_add_to_cart',
-					'ssf_single_position' => 'after_add_to_cart',
-					'ssf_display_mode'    => 'button',
-					'ssf_custom_shortcode' => 'yes',
-					'ssf_notification_type' => 'toast',
+					'skynsmfa_enable'          => 'yes',
+					'skynsmfa_multiple_enable' => 'yes',
+					'skynsmfa_loop_icon'       => 'yes',
+					'skynsmfa_single_icon'     => 'yes',
+					'skynsmfa_loop_position'   => 'after_add_to_cart',
+					'skynsmfa_single_position' => 'after_add_to_cart',
+					'skynsmfa_display_mode'    => 'button',
+					'skynsmfa_custom_shortcode' => 'yes',
+					'skynsmfa_notification_type' => 'toast',
 				),
 				'',
 				false
@@ -157,18 +157,18 @@ final class Plugin {
 	 * @return void
 	 */
 	public static function create_pages(): void {
-		$settings = \get_option( 'ssf_settings', array() );
+		$settings = get_option( 'skynsmfa_settings', array() );
 		if ( ! is_array( $settings ) ) {
 			$settings = array();
 		}
 
 		// Check if page already exists and is valid
-		if ( ! empty( $settings['wishlist_page_id'] ) && 'publish' === \get_post_status( $settings['wishlist_page_id'] ) ) {
+		if ( ! empty( $settings['wishlist_page_id'] ) && 'publish' === get_post_status( $settings['wishlist_page_id'] ) ) {
 			return;
 		}
 
 		// Try to find an existing wishlist page by title.
-		$pages = \get_posts(
+		$pages = get_posts(
 			array(
 				'post_type'      => 'page',
 				'post_status'    => 'publish',
@@ -179,29 +179,29 @@ final class Plugin {
 
 		$page = null;
 		foreach ( $pages as $found_page ) {
-			if ( $found_page instanceof \WP_Post && $found_page->post_title === __( 'Wishlist', 'skynet-smart-favorites' ) ) {
+			if ( $found_page instanceof WP_Post && $found_page->post_title === __( 'Wishlist', 'skynet-smart-favorites' ) ) {
 				$page = $found_page;
 				break;
 			}
 		}
 
-		if ( $page instanceof \WP_Post && 'publish' === $page->post_status ) {
+		if ( $page instanceof WP_Post && 'publish' === $page->post_status ) {
 			$page_id_to_save = $page->ID;
 
-			if ( ! \has_shortcode( $page->post_content, 'ssf_wishlist' ) ) {
-				\wp_update_post(
+			if ( ! has_shortcode( $page->post_content, 'skynsmfa_wishlist' ) ) {
+				wp_update_post(
 					array(
 						'ID'           => $page_id_to_save,
-						'post_content' => trim( $page->post_content ) . "\n\n[ssf_wishlist]",
+						'post_content' => trim( $page->post_content ) . "\n\n[skynsmfa_wishlist]",
 					)
 				);
 			}
 		} else {
 			// Create a new one
-			$page_id_to_save = \wp_insert_post(
+			$page_id_to_save = wp_insert_post(
 				array(
 					'post_title'     => 'Wishlist',
-					'post_content'   => '[ssf_wishlist]',
+					'post_content'   => '[skynsmfa_wishlist]',
 					'post_status'    => 'publish',
 					'post_type'      => 'page',
 					'comment_status' => 'closed',
@@ -209,9 +209,9 @@ final class Plugin {
 			);
 		}
 
-		if ( ! \is_wp_error( $page_id_to_save ) ) {
+		if ( ! is_wp_error( $page_id_to_save ) ) {
 			$settings['wishlist_page_id'] = $page_id_to_save;
-			\update_option( 'ssf_settings', $settings );
+			update_option( 'skynsmfa_settings', $settings );
 		}
 	}
 
@@ -221,12 +221,12 @@ final class Plugin {
 	 * @return void
 	 */
 	public function render_wc_missing_notice(): void {
-		if ( ! \current_user_can( 'activate_plugins' ) ) {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
 
 		echo '<div class="notice notice-error"><p>';
-		echo \esc_html__( 'SkyNet Smart Favorites requires WooCommerce to be installed and active.', 'skynet-smart-favorites' );
+		echo esc_html__( 'SkyNet Smart Favorites requires WooCommerce to be installed and active.', 'skynet-smart-favorites' );
 		echo '</p></div>';
 	}
 }

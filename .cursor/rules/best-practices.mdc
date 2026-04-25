@@ -1,0 +1,195 @@
+Here’s a **clean Markdown version** of the WordPress Plugin Best Practices page:
+
+---
+
+# WordPress Plugin Best Practices
+
+Source: WordPress Plugin Developer Handbook
+Link: [https://developer.wordpress.org/plugins/plugin-basics/best-practices/](https://developer.wordpress.org/plugins/plugin-basics/best-practices/)
+
+---
+
+## Overview
+
+These best practices help ensure your plugin works smoothly with WordPress core and other plugins while staying maintainable and scalable. ([WordPress Developer Resources][1])
+
+---
+
+## 1. Avoid Naming Collisions
+
+Naming collisions happen when your plugin uses the same function, class, or variable name as another plugin.
+
+### ✅ Prefix Everything
+
+* Use a **unique prefix (4–5+ characters)** for:
+
+  * Functions
+  * Classes
+  * Namespaces
+  * Options
+  * Global variables
+* Avoid common prefixes like:
+
+  * `wp_`, `_`, `__`, `WordPress`
+
+**Example:**
+
+```php
+function ecpt_save_post() {}
+define('ECPT_LICENSE', true);
+class ECPT_Admin {}
+update_option('ecpt_settings', $settings);
+```
+
+---
+
+### ✅ Check for Existing Implementations
+
+Use PHP checks:
+
+* `isset()` → variables
+* `function_exists()` → functions
+* `class_exists()` → classes
+* `defined()` → constants
+
+**Example:**
+
+```php
+if ( ! function_exists( 'wporg_init' ) ) {
+    function wporg_init() {
+        register_setting( 'wporg_settings', 'wporg_option_foo' );
+    }
+}
+```
+
+⚠️ Avoid overusing this pattern—it can cause conflicts if another plugin loads first.
+
+---
+
+### ✅ Use Object-Oriented Programming (OOP)
+
+Encapsulate logic inside classes to reduce conflicts.
+
+```php
+if ( ! class_exists( 'WPOrg_Plugin' ) ) {
+    class WPOrg_Plugin {
+        public static function init() {
+            register_setting( 'wporg_settings', 'wporg_option_foo' );
+        }
+    }
+
+    WPOrg_Plugin::init();
+}
+```
+
+---
+
+## 2. File Organization
+
+Keep your plugin structure clean and organized.
+
+### Recommended Structure
+
+```
+/plugin-name
+    plugin-name.php
+    uninstall.php
+    /languages
+    /includes
+    /admin
+        /js
+        /css
+        /images
+    /public
+        /js
+        /css
+        /images
+```
+
+✔ Helps maintainability
+✔ Keeps related files grouped together ([WordPress Developer Resources][1])
+
+---
+
+## 3. Plugin Architecture
+
+Choose architecture based on plugin size.
+
+### Small Plugins
+
+* Single file with functions is fine
+
+### Large Plugins
+
+* Use:
+
+  * Classes
+  * Separate files
+  * Modular structure
+
+---
+
+### ✅ Conditional Loading
+
+Load admin-only code when needed:
+
+```php
+if ( is_admin() ) {
+    require_once __DIR__ . '/admin/plugin-name-admin.php';
+}
+```
+
+---
+
+### ✅ Avoid Direct File Access
+
+Add this at the top of files:
+
+```php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+```
+
+✔ Prevents unauthorized direct access ([WordPress Developer Resources][1])
+
+---
+
+### ✅ Architecture Patterns
+
+Common patterns:
+
+* Single file (functions)
+* Single file (class-based)
+* Main file + multiple class files
+
+---
+
+## 4. Boilerplate Starting Points
+
+Instead of starting from scratch, use boilerplates:
+
+* WordPress Plugin Boilerplate
+* Plugin Bootstrap
+* WP Skeleton Plugin
+* WP-CLI Scaffold
+
+✔ Improves consistency
+✔ Makes collaboration easier ([WordPress Developer Resources][1])
+
+---
+
+## Key Takeaways
+
+* Always **prefix your code**
+* Use **OOP for scalability**
+* Keep **clean folder structure**
+* Load files **conditionally**
+* Protect files from **direct access**
+* Use **boilerplates for faster development**
+
+---
+
+If you want, I can convert this into a **developer-ready checklist or internal guideline for your WooCommerce plugin project** (based on your current work).
+
+[1]: https://developer.wordpress.org/plugins/plugin-basics/best-practices/?utm_source=chatgpt.com "Best Practices – Plugin Handbook | Developer.WordPress.org"

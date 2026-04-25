@@ -2,12 +2,12 @@
 /**
  * AJAX handlers.
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +27,7 @@ final class Ajax {
 	 *
 	 * @var string
 	 */
-	private $nonce_action = 'ssf_wishlist_nonce';
+	private $nonce_action = 'skynsmfa_wishlist_nonce';
 
 	/**
 	 * Get singleton instance.
@@ -46,23 +46,23 @@ final class Ajax {
 	 * Constructor.
 	 */
 	private function __construct() {
-		\add_action( 'wp_ajax_ssf_add_to_wishlist', array( $this, 'add_to_wishlist' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_add_to_wishlist', array( $this, 'add_to_wishlist' ) );
+		add_action( 'wp_ajax_skynsmfa_add_to_wishlist', array( $this, 'add_to_wishlist' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_add_to_wishlist', array( $this, 'add_to_wishlist' ) );
 
-		\add_action( 'wp_ajax_ssf_remove_from_wishlist', array( $this, 'remove_from_wishlist' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_remove_from_wishlist', array( $this, 'remove_from_wishlist' ) );
+		add_action( 'wp_ajax_skynsmfa_remove_from_wishlist', array( $this, 'remove_from_wishlist' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_remove_from_wishlist', array( $this, 'remove_from_wishlist' ) );
 
-		\add_action( 'wp_ajax_ssf_create_wishlist', array( $this, 'create_wishlist' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_create_wishlist', array( $this, 'create_wishlist' ) );
+		add_action( 'wp_ajax_skynsmfa_create_wishlist', array( $this, 'create_wishlist' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_create_wishlist', array( $this, 'create_wishlist' ) );
 
-		\add_action( 'wp_ajax_ssf_get_wishlist', array( $this, 'get_wishlist' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_get_wishlist', array( $this, 'get_wishlist' ) );
+		add_action( 'wp_ajax_skynsmfa_get_wishlist', array( $this, 'get_wishlist' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_get_wishlist', array( $this, 'get_wishlist' ) );
 
-		\add_action( 'wp_ajax_ssf_move_to_cart', array( $this, 'move_to_cart' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_move_to_cart', array( $this, 'move_to_cart' ) );
+		add_action( 'wp_ajax_skynsmfa_move_to_cart', array( $this, 'move_to_cart' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_move_to_cart', array( $this, 'move_to_cart' ) );
 
-		\add_action( 'wp_ajax_ssf_move_multiple_to_cart', array( $this, 'move_multiple_to_cart' ) );
-		\add_action( 'wp_ajax_nopriv_ssf_move_multiple_to_cart', array( $this, 'move_multiple_to_cart' ) );
+		add_action( 'wp_ajax_skynsmfa_move_multiple_to_cart', array( $this, 'move_multiple_to_cart' ) );
+		add_action( 'wp_ajax_nopriv_skynsmfa_move_multiple_to_cart', array( $this, 'move_multiple_to_cart' ) );
 	}
 
 	/**
@@ -88,14 +88,14 @@ final class Ajax {
 	public function add_to_wishlist(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
-		$product_id   = isset( $_POST['product_id'] ) ? absint( \wp_unslash( $_POST['product_id'] ) ) : 0;
-		$qty          = isset( $_POST['qty'] ) ? absint( \wp_unslash( $_POST['qty'] ) ) : 1;
-		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( \wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
+		$product_id   = isset( $_POST['product_id'] ) ? absint( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$qty          = isset( $_POST['qty'] ) ? absint( wp_unslash( $_POST['qty'] ) ) : 1;
+		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
 
 		if ( $product_id <= 0 ) {
-			\wp_send_json_error(
+			wp_send_json_error(
 				array(
 					'message' => __( 'Invalid product.', 'skynet-smart-favorites' ),
 				)
@@ -110,9 +110,9 @@ final class Ajax {
 		 * @param int    $product_id Product ID.
 		 * @param string $wishlist_key Wishlist key.
 		 */
-		\do_action( 'ssf_wishlist_added', $product_id, $wishlist_key );
+		do_action( 'skynsmfa_wishlist_added', $product_id, $wishlist_key );
 
-		\wp_send_json_success(
+		wp_send_json_success(
 			array(
 				'owner' => Session::instance()->get_owner(),
 				'data'  => $data,
@@ -128,13 +128,13 @@ final class Ajax {
 	public function remove_from_wishlist(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
-		$product_id   = isset( $_POST['product_id'] ) ? absint( \wp_unslash( $_POST['product_id'] ) ) : 0;
-		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( \wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
+		$product_id   = isset( $_POST['product_id'] ) ? absint( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
 
 		if ( $product_id <= 0 ) {
-			\wp_send_json_error(
+			wp_send_json_error(
 				array(
 					'message' => __( 'Invalid product.', 'skynet-smart-favorites' ),
 				)
@@ -149,9 +149,9 @@ final class Ajax {
 		 * @param int    $product_id Product ID.
 		 * @param string $wishlist_key Wishlist key.
 		 */
-		\do_action( 'ssf_wishlist_removed', $product_id, $wishlist_key );
+		do_action( 'skynsmfa_wishlist_removed', $product_id, $wishlist_key );
 
-		\wp_send_json_success(
+		wp_send_json_success(
 			array(
 				'owner' => Session::instance()->get_owner(),
 				'data'  => $data,
@@ -167,12 +167,12 @@ final class Ajax {
 	public function create_wishlist(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
-		$list_name = isset( $_POST['list_name'] ) ? sanitize_text_field( \wp_unslash( $_POST['list_name'] ) ) : '';
+		$list_name = isset( $_POST['list_name'] ) ? sanitize_text_field( wp_unslash( $_POST['list_name'] ) ) : '';
 
 		if ( '' === $list_name ) {
-			\wp_send_json_error(
+			wp_send_json_error(
 				array(
 					'message' => __( 'Please provide a wishlist name.', 'skynet-smart-favorites' ),
 				)
@@ -192,7 +192,7 @@ final class Ajax {
 		$data[ $key ] = array();
 		Session::instance()->set_data( $data );
 
-		\wp_send_json_success(
+		wp_send_json_success(
 			array(
 				'key'  => $key,
 				'name' => $list_name,
@@ -209,9 +209,9 @@ final class Ajax {
 	public function get_wishlist(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
-		\wp_send_json_success(
+		wp_send_json_success(
 			array(
 				'owner' => Session::instance()->get_owner(),
 				'data'  => Session::instance()->get_data(),
@@ -227,17 +227,17 @@ final class Ajax {
 	public function move_to_cart(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-			\wp_send_json_error( array( 'message' => __( 'Cart not available.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Cart not available.', 'skynet-smart-favorites' ) ) );
 		}
 
-		$product_id   = isset( $_POST['product_id'] ) ? absint( \wp_unslash( $_POST['product_id'] ) ) : 0;
-		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( \wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
+		$product_id   = isset( $_POST['product_id'] ) ? absint( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
 
 		if ( $product_id <= 0 ) {
-			\wp_send_json_error( array( 'message' => __( 'Invalid product.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid product.', 'skynet-smart-favorites' ) ) );
 		}
 
 		// Add to WC Cart
@@ -246,9 +246,9 @@ final class Ajax {
 		if ( $added ) {
 			// Remove from wishlist
 			Session::instance()->remove_item( $product_id, $wishlist_key );
-			\wp_send_json_success( array( 'message' => __( 'Product moved to cart.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_success( array( 'message' => __( 'Product moved to cart.', 'skynet-smart-favorites' ) ) );
 		} else {
-			\wp_send_json_error( array( 'message' => __( 'Could not add to cart.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Could not add to cart.', 'skynet-smart-favorites' ) ) );
 		}
 	}
 
@@ -260,17 +260,17 @@ final class Ajax {
 	public function move_multiple_to_cart(): void {
 		$this->ensure_session();
 
-		\check_ajax_referer( $this->nonce_action, 'nonce' );
+		check_ajax_referer( $this->nonce_action, 'nonce' );
 
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-			\wp_send_json_error( array( 'message' => __( 'Cart not available.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Cart not available.', 'skynet-smart-favorites' ) ) );
 		}
 
-		$product_ids = isset( $_POST['product_ids'] ) && is_array( $_POST['product_ids'] ) ? array_map( 'absint', \wp_unslash( $_POST['product_ids'] ) ) : array();
-		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( \wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
+		$product_ids = isset( $_POST['product_ids'] ) && is_array( $_POST['product_ids'] ) ? array_map( 'absint', wp_unslash( $_POST['product_ids'] ) ) : array();
+		$wishlist_key = isset( $_POST['wishlist_key'] ) ? sanitize_text_field( wp_unslash( $_POST['wishlist_key'] ) ) : 'default';
 
 		if ( empty( $product_ids ) ) {
-			\wp_send_json_error( array( 'message' => __( 'No products selected.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No products selected.', 'skynet-smart-favorites' ) ) );
 		}
 
 		$added_count = 0;
@@ -286,9 +286,9 @@ final class Ajax {
 
 		if ( $added_count > 0 ) {
 			// translators: %d is the number of products moved from the wishlist to the cart.
-			\wp_send_json_success( array( 'message' => sprintf( _n( '%d product moved to cart.', '%d products moved to cart.', $added_count, 'skynet-smart-favorites' ), $added_count ) ) );
+			wp_send_json_success( array( 'message' => sprintf( _n( '%d product moved to cart.', '%d products moved to cart.', $added_count, 'skynet-smart-favorites' ), $added_count ) ) );
 		} else {
-			\wp_send_json_error( array( 'message' => __( 'Could not add products to cart.', 'skynet-smart-favorites' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Could not add products to cart.', 'skynet-smart-favorites' ) ) );
 		}
 	}
 }

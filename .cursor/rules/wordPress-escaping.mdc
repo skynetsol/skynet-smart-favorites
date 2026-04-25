@@ -1,0 +1,272 @@
+Here’s a **clean Markdown version** of the WordPress Escaping Data page:
+
+---
+
+# WordPress Escaping Data (Security)
+
+Source: WordPress Developer Handbook
+Link: [https://developer.wordpress.org/apis/security/escaping/](https://developer.wordpress.org/apis/security/escaping/)
+
+---
+
+## Overview
+
+Escaping output is the process of securing data before displaying it by removing unsafe or unwanted content (like scripts or malformed HTML). ([WordPress Developer Resources][1])
+
+✔ Prevents XSS (Cross-Site Scripting)
+✔ Ensures safe rendering in the browser
+
+---
+
+## Core Principle
+
+> **Always escape data when outputting it (not before).** ([WordPress Developer Resources][1])
+
+---
+
+## 1. Escaping Functions
+
+WordPress provides helper functions depending on the context.
+
+### Common Functions
+
+#### `esc_html()`
+
+Use when outputting plain text inside HTML tags (removes HTML).
+
+```php
+<h4><?php echo esc_html( $title ); ?></h4>
+```
+
+---
+
+#### `esc_attr()`
+
+Use inside HTML attributes.
+
+```php
+<ul class="<?php echo esc_attr( $class ); ?>">
+```
+
+---
+
+#### `esc_url()`
+
+Use for URLs in `href`, `src`, etc.
+
+```php
+<a href="<?php echo esc_url( $url ); ?>">
+```
+
+---
+
+#### `esc_url_raw()`
+
+Use when saving URLs to the database (not for output).
+
+---
+
+#### `esc_js()`
+
+Use inside JavaScript.
+
+```php
+onclick="<?php echo esc_js( $value ); ?>"
+```
+
+---
+
+#### `esc_textarea()`
+
+Use for `<textarea>` content.
+
+```php
+<textarea><?php echo esc_textarea( $data ); ?></textarea>
+```
+
+---
+
+#### `esc_xml()`
+
+Use in XML or XSL output.
+
+---
+
+### Allow Limited HTML
+
+#### `wp_kses()`
+
+Allow only specific HTML tags.
+
+```php
+echo wp_kses( $content, [
+  'a' => ['href' => []],
+  'br' => [],
+  'strong' => [],
+]);
+```
+
+---
+
+#### `wp_kses_post()`
+
+Allows only HTML permitted in post content.
+
+#### `wp_kses_data()`
+
+Allows only safe HTML for comments.
+
+---
+
+## 2. Custom Escaping
+
+Use `wp_kses()` when you need strict control over allowed HTML.
+
+✔ Filters tags, attributes, values
+✔ Prevents unsafe markup
+
+---
+
+## 3. Always Escape Late
+
+Best practice:
+
+```php
+// ❌ Not ideal
+$url = esc_url( $url );
+echo '<a href="' . $url . '">';
+
+// ✅ Recommended
+echo '<a href="' . esc_url( $url ) . '">';
+```
+
+### Why?
+
+* Easier code review
+* Prevents accidental changes before output
+* Improves security reliability
+* Makes code future-proof ([WordPress Developer Resources][1])
+
+---
+
+## 4. When You Can’t Escape Late
+
+Sometimes (e.g., scripts), late escaping is not possible.
+
+👉 In that case:
+
+* Escape early
+* Store in variables like:
+
+  * `$data_safe`
+  * `$data_escaped`
+
+---
+
+## 5. Escaping with Localization
+
+Use combined functions:
+
+```php
+esc_html_e( 'Hello World', 'text-domain' );
+```
+
+Equivalent to:
+
+```php
+echo esc_html( __( 'Hello World', 'text-domain' ) );
+```
+
+### Helpers
+
+* `esc_html__()`
+* `esc_html_e()`
+* `esc_html_x()`
+* `esc_attr__()`
+* `esc_attr_e()`
+* `esc_attr_x()`
+
+---
+
+## 6. Practical Examples
+
+### Numeric Values
+
+```php
+echo (int) $number;
+echo absint( $number );
+```
+
+---
+
+### HTML Attribute
+
+```php
+echo '<div id="' . esc_attr( $prefix . '-box' . $id ) . '">';
+```
+
+---
+
+### URL
+
+```php
+echo '<a href="' . esc_url( $url ) . '">';
+```
+
+---
+
+### JavaScript
+
+```php
+var myVar = <?php echo esc_js( $value ); ?>
+```
+
+---
+
+### Textarea
+
+```php
+echo '<textarea>' . esc_textarea( $data ) . '</textarea>';
+```
+
+---
+
+### HTML Content
+
+* No HTML → `esc_html()`
+* Allow HTML → `wp_kses_post()`
+
+---
+
+### XML
+
+```php
+echo '<loc>' . esc_xml( $var ) . '</loc>';
+```
+
+---
+
+## 7. Key Rules (Very Important)
+
+* Never trust user input
+* Escape **everything on output**
+* Use the **correct function for the context**
+* Prefer WordPress built-in functions
+* Validation + sanitization + escaping = secure code ([WordPress Developer Resources][2])
+
+---
+
+## Final Takeaways
+
+✔ Escape **late**
+✔ Use **context-based escaping functions**
+✔ Use `wp_kses()` when allowing HTML
+✔ Combine escaping with localization
+✔ Always assume data is unsafe
+
+---
+
+If you want, I can merge this + previous best practices into a **single plugin security guideline for your WooCommerce project (very practical)**.
+
+[1]: https://developer.wordpress.org/apis/security/escaping/?utm_source=chatgpt.com "Escaping Data – Common APIs Handbook | Developer.WordPress.org"
+[2]: https://developer.wordpress.org/apis/security/?utm_source=chatgpt.com "Security – Common APIs Handbook | Developer.WordPress.org"

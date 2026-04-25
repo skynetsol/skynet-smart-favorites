@@ -2,12 +2,12 @@
 /**
  * Sync guest wishlist to user after login (skeleton).
  *
- * @package SSF_Smart_Favorites
+ * @package SKYNSMFA_Smart_Favorites
  */
 
 declare( strict_types=1 );
 
-namespace SSF\Wishlist;
+namespace SKYNSMFA\Wishlist;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +27,7 @@ final class Sync {
 	 *
 	 * @var string
 	 */
-	private $synced_key = 'ssf_synced';
+	private $synced_key = 'skynsmfa_synced_flag';
 
 	/**
 	 * Get singleton instance.
@@ -46,7 +46,7 @@ final class Sync {
 	 * Constructor.
 	 */
 	private function __construct() {
-		\add_action( 'woocommerce_init', array( $this, 'maybe_sync' ), 20 );
+		add_action( 'woocommerce_init', array( $this, 'maybe_sync' ), 20 );
 	}
 
 	/**
@@ -55,7 +55,7 @@ final class Sync {
 	 * @return void
 	 */
 	public function maybe_sync(): void {
-		if ( ! \is_user_logged_in() ) {
+		if ( ! is_user_logged_in() ) {
 			return;
 		}
 
