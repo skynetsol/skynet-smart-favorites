@@ -320,7 +320,7 @@ final class Frontend {
 		 */
 		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, $context );
 
-		echo wp_kses_post( $html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses( $html, $this->get_allowed_html() );
 	}
 
 	/**
@@ -349,7 +349,7 @@ final class Frontend {
 		 */
 		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, $context );
 
-		echo wp_kses_post( $html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses( $html, $this->get_allowed_html() );
 	}
 
 	/**
@@ -413,7 +413,7 @@ final class Frontend {
 		 */
 		$html = (string) apply_filters( 'skynsmfa_icon_html', $html, $product_id, 'shortcode' );
 
-		return wp_kses_post( $html );
+		return wp_kses( $html, $this->get_allowed_html() );
 	}
 
 	/**
@@ -455,7 +455,7 @@ final class Frontend {
 		if ( empty( $data ) ) {
 			echo '<p class="skynsmfa-empty">' . esc_html__( 'Your wishlist is currently empty.', 'skynet-smart-favorites' ) . '</p>';
 			echo '</div>';
-			return wp_kses_post( ob_get_clean() );
+			return ob_get_clean();
 		}
 
 		foreach ( $data as $list_key => $items ) {
@@ -536,7 +536,7 @@ final class Frontend {
 
 		echo '</div>'; // container
 
-		return wp_kses_post( ob_get_clean() );
+		return ob_get_clean();
 	}
 
 	/**
@@ -547,6 +547,38 @@ final class Frontend {
 	private function get_settings(): array {
 		$settings = get_option( 'skynsmfa_settings', array() );
 		return is_array( $settings ) ? $settings : array();
+	}
+
+	/**
+	 * Get allowed HTML for icon and buttons.
+	 *
+	 * @return array
+	 */
+	private function get_allowed_html(): array {
+		return array_merge(
+			wp_kses_allowed_html( 'post' ),
+			array(
+				'svg' => array(
+					'class'       => true,
+					'aria-hidden' => true,
+					'focusable'   => true,
+					'viewbox'     => true,
+					'xmlns'       => true,
+				),
+				'path' => array(
+					'd'    => true,
+					'fill' => true,
+				),
+				'button' => array(
+					'type'              => true,
+					'class'             => true,
+					'data-product-id'   => true,
+					'data-wishlist-key' => true,
+					'data-context'      => true,
+					'aria-label'        => true,
+				),
+			)
+		);
 	}
 }
 
