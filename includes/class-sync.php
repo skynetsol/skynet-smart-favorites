@@ -75,7 +75,7 @@ final class Sync {
 		}
 
 		// Skeleton behavior: keep data in session and mark as synced.
-		// A production implementation would persist to {$wpdb->prefix}ssf_ tables for the user.
+		// A production implementation would persist to {$wpdb->prefix}skynsmfa_ tables for the user.
 		WC()->session->set( $this->synced_key, true );
 	}
 }

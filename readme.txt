@@ -1,6 +1,6 @@
 === SkyNet Smart Favorites ===
-Contributors: satinath1, SkyNet
-Donate link:https://skynetsol.com/
+Contributors: satinath1
+Donate link: https://skynetsol.com/
 Tags: wishlist, woocommerce, multiple wishlist, ajax, shortcodes
 Requires at least: 6.0
 Tested up to: 6.9
@@ -97,4 +97,3 @@ For support, questions, or bug reports, please use the plugin support forum on W
 == License ==
 
 This plugin is released under the GPLv2 or later license. See the plugin header for full license details.
-

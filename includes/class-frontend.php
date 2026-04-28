@@ -417,7 +417,7 @@ final class Frontend {
 	}
 
 	/**
-	 * Render the [ssf_wishlist] shortcode.
+	 * Render the [skynsmfa_wishlist] shortcode.
 	 *
 	 * @return string
 	 */
