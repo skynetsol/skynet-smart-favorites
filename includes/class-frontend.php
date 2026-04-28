@@ -136,7 +136,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'loop' );
+		$this->render_button( absint( $product->get_id() ), 'loop' );
 	}
 
 	/**
@@ -161,7 +161,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'loop' );
+		$this->render_button( absint( $product->get_id() ), 'loop' );
 	}
 
 	/**
@@ -186,7 +186,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'over_image' );
+		$this->render_button( absint( $product->get_id() ), 'over_image' );
 	}
 
 	/**
@@ -211,7 +211,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'single' );
+		$this->render_button( absint( $product->get_id() ), 'single' );
 	}
 
 	public function render_single_button_after(): void {
@@ -231,7 +231,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'single' );
+		$this->render_button( absint( $product->get_id() ), 'single' );
 	}
 
 	/**
@@ -256,7 +256,7 @@ final class Frontend {
 			return;
 		}
 
-		$this->render_button( (int) $product->get_id(), 'single' );
+		$this->render_button( absint( $product->get_id() ), 'single' );
 	}
 
 	/**
@@ -563,6 +563,7 @@ final class Frontend {
 					'aria-hidden' => true,
 					'focusable'   => true,
 					'viewbox'     => true,
+					'viewBox'     => true,
 					'xmlns'       => true,
 				),
 				'path' => array(

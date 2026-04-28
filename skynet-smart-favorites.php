@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKYNSMFA_VERSION', time() );
+define( 'SKYNSMFA_VERSION', '1.0.0' );
 define( 'SKYNSMFA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SKYNSMFA_URL', plugin_dir_url( __FILE__ ) );
 define( 'SKYNSMFA_FILE', __FILE__ );
